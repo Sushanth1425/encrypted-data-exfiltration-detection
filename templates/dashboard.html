@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TLS Exfiltration Dashboard</title>
+</head>
+<body>
+
+<h1> TLS Exfiltration Detection Dashboard</h1>
+
+<h2>Summary</h2>
+<p>Total Suspicious Flows: {{ total_flows }}</p>
+<p>Total Alerts: {{ total_alerts }}</p>
+
+<h2> Alerts</h2>
+<table border="1">
+<tr>
+    <th>Flow</th>
+    <th>Risk Score</th>
+    <th>Risk Level</th>
+    <th>Reason</th>
+</tr>
+
+{% for row in alerts %}
+<tr>
+    <td>{{ row.flow }}</td>
+    <td>{{ row.risk_score }}</td>
+    <td>{{ row.risk_level }}</td>
+    <td>{{ row.reason }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<h2> Anomaly Plot</h2>
+<img src="/static/anomaly_plot.png" width="600">
+
+</body>
+</html>
+

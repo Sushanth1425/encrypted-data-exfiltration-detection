@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+
+# Dataset
+archive/
+*.zip
+
+# Results (keep optional small files if needed)
+results/*.csv
+results/*.png
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+
+venv/
+__pycache__/
+*.pyc
+*.mp4
+*.zip
+secret.txt
+results/capture.pcapng
+results/all_features.csv
