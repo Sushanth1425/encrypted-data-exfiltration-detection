@@ -121,7 +121,81 @@ This helps:
 * detect automated communication
 * identify exfiltration behavior
 
+
+
+
 ---
+
+# Traffic Collection and TLS Metadata Extraction
+
+## Traffic Collection
+
+Network traffic was captured using Wireshark/Tshark from real encrypted TLS sessions generated through:
+
+* Web browsing
+* File downloads
+* Cloud applications
+* Streaming services
+* Background system traffic
+
+The captured packets were stored in `.pcapng` format.
+
+Example capture command:
+
+```bash
+tshark -i Wi-Fi -w capture.pcapng
+```
+
+---
+
+## TLS Metadata Extraction
+
+TLS-related metadata fields were extracted from packet captures using Tshark.
+
+### Extracted Fields
+
+* Source IP
+* Destination IP
+* Packet timestamp
+* Packet length
+* TLS Server Name Indication (SNI)
+* TLS version
+* Cipher suite
+
+### Tshark Extraction Command
+
+```bash
+tshark -r capture.pcapng ^
+-T fields ^
+-e ip.src ^
+-e ip.dst ^
+-e frame.len ^
+-e frame.time_epoch ^
+-e tls.handshake.extensions_server_name ^
+-e tls.record.version ^
+-e tls.handshake.ciphersuite ^
+-E header=y ^
+-E separator=\t > results/flow_raw.csv
+```
+
+---
+
+## Why TLS Metadata?
+
+Since TLS encrypts payload contents, this project focuses on metadata-based behavioral analysis instead of payload inspection.
+
+Metadata such as:
+
+* timing patterns
+* packet sizes
+* entropy
+* beaconing behavior
+* transfer rates
+
+can still reveal suspicious encrypted communication patterns.
+
+---
+
 
 ## Feature Engineering
 
@@ -229,7 +303,7 @@ The system successfully detected suspicious encrypted traffic behavior using onl
 ### Key Observations
 
 * High entropy domains correlated with suspicious flows
-* Hybrid IF + LOF improved confidence
+* Hybrid Isolation Forest + LOF consensus improved anomaly confidence
 * Risk scoring reduced false positives
 * Behavioral analysis improved anomaly detection quality
 
